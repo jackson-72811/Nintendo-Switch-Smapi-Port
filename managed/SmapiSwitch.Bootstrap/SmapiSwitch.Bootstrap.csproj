@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>SmapiSwitch.Bootstrap</AssemblyName>
+    <RootNamespace>SmapiSwitch.Bootstrap</RootNamespace>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <!-- Publish as a self-contained DLL placed on the SD card -->
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StardewModdingAPI\StardewModdingAPI.csproj" />
+  </ItemGroup>
+
+</Project>

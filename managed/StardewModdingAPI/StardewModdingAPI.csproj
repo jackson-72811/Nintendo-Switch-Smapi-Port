@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>StardewModdingAPI</AssemblyName>
+    <RootNamespace>StardewModdingAPI</RootNamespace>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <LangVersion>latest</LangVersion>
+    <!-- Suppress CS0067 (unused events — mods subscribe at runtime) and
+         CS0169 (unused private fields — intentional stubs) -->
+    <NoWarn>CS0067;CS0169;CS8600;CS8601;CS8602;CS8603;CS8604;CS8618;CS8625;CS8765;CS8767</NoWarn>
+    <!-- Produce a single self-contained DLL (no runtime host needed) -->
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <Platforms>AnyCPU</Platforms>
+    <Configurations>Debug;Release</Configurations>
+  </PropertyGroup>
+
+  <!-- ── NuGet dependencies ───────────────────────────────────────────── -->
+  <ItemGroup>
+    <!-- Harmony for runtime patching of game methods -->
+    <PackageReference Include="HarmonyX"         Version="2.10.1" />
+
+    <!-- Mono.Cecil for assembly inspection/manipulation -->
+    <PackageReference Include="Mono.Cecil"        Version="0.11.5" />
+
+    <!-- JSON serialization (mod manifests, data files, config) -->
+    <PackageReference Include="Newtonsoft.Json"   Version="13.0.3" />
+
+    <!-- MonoGame / XNA stubs for Switch (provided by game at runtime) -->
+    <!-- We reference MonoGame.Framework as a build-time stub only -->
+    <PackageReference Include="MonoGame.Framework.DesktopGL"
+                      Version="3.8.1.303"
+                      ExcludeAssets="runtime" />
+  </ItemGroup>
+
+
+</Project>

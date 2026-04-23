@@ -1,0 +1,26 @@
+# Build output
+build/
+out/
+*.nro
+*.npdm
+*.nacp
+*.elf
+*.o
+*.d
+*.a
+
+# .NET
+managed/**/bin/
+managed/**/obj/
+managed/**/*.user
+managed/**/.vs/
+*.nupkg
+
+# Windows
+Thumbs.db
+Desktop.ini
+*.vs/
+
+# devkitPro
+*.map
+*.lst
