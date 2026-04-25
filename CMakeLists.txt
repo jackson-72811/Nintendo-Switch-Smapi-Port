@@ -4,12 +4,21 @@ project(SmapiSwitch VERSION 1.0.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# ── Include paths ────────────────────────────────────────────────────────────
+# ── Locate devkitPro ─────────────────────────────────────────────────────────
 if(DEFINED ENV{DEVKITPRO})
     set(DEVKITPRO $ENV{DEVKITPRO})
-else()
+elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     set(DEVKITPRO "C:/devkitPro")
+else()
+    set(DEVKITPRO "/opt/devkitpro")
 endif()
+
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+    set(EXE ".exe")
+else()
+    set(EXE "")
+endif()
+
 set(LIBNX    "${DEVKITPRO}/libnx")
 set(PORTLIBS "${DEVKITPRO}/portlibs/switch")
 
@@ -32,7 +41,7 @@ set(NATIVE_SOURCES
 add_executable(smapi_switch.elf ${NATIVE_SOURCES})
 
 target_link_libraries(smapi_switch.elf
-    ${DEVKITPRO}/libnx/lib/libnx.a
+    ${LIBNX}/lib/libnx.a
     m c
 )
 
@@ -47,8 +56,8 @@ target_link_options(smapi_switch.elf PRIVATE
 )
 
 # ── Post-build: produce .nro ─────────────────────────────────────────────────
-set(ELF2NRO "${DEVKITPRO}/tools/bin/elf2nro.exe")
-set(NACPTOOL "${DEVKITPRO}/tools/bin/nacptool.exe")
+set(ELF2NRO  "${DEVKITPRO}/tools/bin/elf2nro${EXE}")
+set(NACPTOOL "${DEVKITPRO}/tools/bin/nacptool${EXE}")
 set(NACP_FILE "${CMAKE_BINARY_DIR}/smapi_switch.nacp")
 
 add_custom_command(TARGET smapi_switch.elf POST_BUILD

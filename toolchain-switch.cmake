@@ -1,25 +1,33 @@
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR aarch64)
 
-# devkitPro root (Windows path — override with DEVKITPRO env var if needed)
+# ── Locate devkitPro ─────────────────────────────────────────────────────────
 if(DEFINED ENV{DEVKITPRO})
     set(DEVKITPRO $ENV{DEVKITPRO})
-else()
+elseif(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
     set(DEVKITPRO "C:/devkitPro")
+else()
+    set(DEVKITPRO "/opt/devkitpro")
 endif()
 
-set(DEVKITARM  "${DEVKITPRO}/devkitARM")
+# Tool extension: .exe on Windows, empty on Linux/macOS
+if(CMAKE_HOST_SYSTEM_NAME STREQUAL "Windows")
+    set(EXE ".exe")
+else()
+    set(EXE "")
+endif()
+
 set(DEVKITA64  "${DEVKITPRO}/devkitA64")
 set(LIBNX      "${DEVKITPRO}/libnx")
 set(PORTLIBS   "${DEVKITPRO}/portlibs/switch")
 
-set(CMAKE_C_COMPILER   "${DEVKITA64}/bin/aarch64-none-elf-gcc.exe")
-set(CMAKE_CXX_COMPILER "${DEVKITA64}/bin/aarch64-none-elf-g++.exe")
-set(CMAKE_AR           "${DEVKITA64}/bin/aarch64-none-elf-ar.exe"     CACHE STRING "")
-set(CMAKE_RANLIB       "${DEVKITA64}/bin/aarch64-none-elf-ranlib.exe" CACHE STRING "")
-set(CMAKE_STRIP        "${DEVKITA64}/bin/aarch64-none-elf-strip.exe"  CACHE STRING "")
-set(ELF2NRO            "${DEVKITPRO}/tools/bin/elf2nro.exe")
-set(NACPTOOL           "${DEVKITPRO}/tools/bin/nacptool.exe")
+set(CMAKE_C_COMPILER   "${DEVKITA64}/bin/aarch64-none-elf-gcc${EXE}")
+set(CMAKE_CXX_COMPILER "${DEVKITA64}/bin/aarch64-none-elf-g++${EXE}")
+set(CMAKE_AR           "${DEVKITA64}/bin/aarch64-none-elf-ar${EXE}"     CACHE STRING "")
+set(CMAKE_RANLIB       "${DEVKITA64}/bin/aarch64-none-elf-ranlib${EXE}" CACHE STRING "")
+set(CMAKE_STRIP        "${DEVKITA64}/bin/aarch64-none-elf-strip${EXE}"  CACHE STRING "")
+set(ELF2NRO            "${DEVKITPRO}/tools/bin/elf2nro${EXE}")
+set(NACPTOOL           "${DEVKITPRO}/tools/bin/nacptool${EXE}")
 
 set(CMAKE_FIND_ROOT_PATH "${DEVKITA64}" "${LIBNX}" "${PORTLIBS}")
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)

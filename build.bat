@@ -10,7 +10,7 @@ setlocal EnableDelayedExpansion
 :: ============================================================================
 
 echo ============================================================
-echo  SMAPI Switch Build System
+echo  SMAPI Switch Build System (Windows)
 echo ============================================================
 echo.
 
@@ -91,13 +91,11 @@ echo [STEP 3/3] Assembling SD card deployment package...
 set DEPLOY=%~dp0build\deploy
 set CONTENTS=%DEPLOY%\atmosphere\contents\0100E65002BB8000
 
-:: Directory structure
-if not exist "%CONTENTS%\exefs"  mkdir "%CONTENTS%\exefs"
+if not exist "%CONTENTS%\exefs"                mkdir "%CONTENTS%\exefs"
 if not exist "%CONTENTS%\romfs\smapi-internal" mkdir "%CONTENTS%\romfs\smapi-internal"
 if not exist "%CONTENTS%\romfs\Mods"           mkdir "%CONTENTS%\romfs\Mods"
-if not exist "%DEPLOY%\switch\smapi"           mkdir "%DEPLOY%\switch\smapi\Mods"
+if not exist "%DEPLOY%\switch\smapi\Mods"      mkdir "%DEPLOY%\switch\smapi\Mods"
 
-:: Copy native NRO
 if exist "%~dp0build\native\smapi_switch.nro" (
     copy /Y "%~dp0build\native\smapi_switch.nro" "%CONTENTS%\exefs\smapi_switch.nro"
     echo [INFO] Copied smapi_switch.nro
@@ -105,11 +103,8 @@ if exist "%~dp0build\native\smapi_switch.nro" (
     echo [WARN] smapi_switch.nro not found — native build may have failed silently.
 )
 
-:: Copy managed assemblies to romfs/smapi-internal
 xcopy /Y /E /I "%~dp0build\managed\*.dll" "%CONTENTS%\romfs\smapi-internal\"
 xcopy /Y /E /I "%~dp0build\managed\*.pdb" "%CONTENTS%\romfs\smapi-internal\"
-
-:: Copy deployment README
 copy /Y "%~dp0deploy\README.txt" "%DEPLOY%\README.txt" 2>nul
 
 echo.
